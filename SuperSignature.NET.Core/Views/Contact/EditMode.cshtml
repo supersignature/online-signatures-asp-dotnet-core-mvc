@@ -1,0 +1,81 @@
+﻿@using SuperSignature.MVC.Core.Models
+@model ContactModel
+
+@{
+    Layout = "../Shared/_Layout.cshtml";
+
+    var signModel = new SignatureModel
+    {
+        SignObject = "ctlSignature",
+        SignWidth = 500,
+        SignHeight = 300,
+        SignBorderStyle = "dashed",
+        SignPenColor = "#000000",
+        SignPenSize = 3,
+        SignBorderColor = "black",
+        SignBorderWidth = 1,
+        SignRequiredPoints = 50, // This will govern validity
+        SignPenCursor = "/images/pen.cur",
+        SignStartMessage = "Display Saved Signature Back",
+        SignSuccessMessage = "Done!",
+        SignErrorMessage = "Keep signing...",
+        SignBackColor = "transparent",
+        SignRefreshImage = "/images/clear.png",
+        SignSmooth = true,
+        SignTransparent = true,
+        SignZIndex = 1,
+        SignImageScaleFactor = 1.0f
+    };
+}
+
+
+<h1 class="mt-5">@ViewBag.Title</h1>
+<br/>
+<div class="row">
+    <div class="col-sm-5">
+        <div class="form-group">
+            <label for="email">First Name</label>
+            @Html.EditorFor(model => model.FirstName, new
+            {
+                htmlAttributes =
+                    new {@class = "form-control"}
+            })
+        </div>
+        <div class="form-group">
+            <label for="pwd">Last Name</label>
+            @Html.EditorFor(model => model.LastName, new
+            {
+                htmlAttributes =
+                    new {@class = "form-control"}
+            })
+        </div>
+        <div class="form-group">
+            @Html.Partial("_SignControl", signModel)
+
+            @Html.HiddenFor(model => model.SignatureData)
+        </div>
+    </div>
+    <div class="col-sm-2 justify-content-center align-self-center">
+       <input type="button" class="btn btn-primary" value="Make Png >> " onclick="MakePng();"/>
+    </div>
+    <div class="col-sm-5">
+        <h3>Png Image</h3>
+        <img src="" id="pngImg"/>
+    </div>
+</div>
+
+@section scripts
+{
+    <script language="javascript">
+        $(document).ready(function() {
+            var signData = $("#SignatureData").val();
+            LoadSignature("ctlSignature", signData, '1');   // LoadSignature('object', 'data', 'scaling')
+        });
+
+        function MakePng() {
+            var pngImg = $("#pngImg");
+            var image = document.getElementById("ctlSignature").toDataURL("image/png");
+            pngImg.attr("src", image);
+        }
+    </script>
+}

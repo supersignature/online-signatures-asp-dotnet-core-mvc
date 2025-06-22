@@ -1,0 +1,146 @@
+﻿@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<!-- DEFAULT CSS FOR SIGNATURE CONTROL, CHANGE IF REQUIRED-->
+<link href="/css/sign.css" rel="stylesheet" />
+
+
+
+<h1 class="mt-5">@ViewBag.Title</h1>
+<br />
+<div class="row">
+    <div class="col-lg-4 col-sm-12">
+        <!-- START ctlSignature CONTROL-->
+        <div id="ctlSignature_Container" style="width: 450px; height: 300px;" class="signContainer">
+            <canvas id="ctlSignature" width="450" height="300" class="signCanvas"></canvas>
+        </div>
+        <div id="ctlSignature_toolbar" style="width: 450px;" class="signToolbar">
+            <input type="button" id="ctlSignature_resetbutton" value="Reset" class="btn btn-default signReset" />
+            <div id="ctlSignature_status" class="signStatus"></div>
+        </div>
+        <input type="hidden" id="ctlSignature_data" name="ctlSignature_data" value="" />
+        <input type="hidden" id="ctlSignature_data_smooth" name="ctlSignature_data_smooth" value="" />
+        <!-- END ctlSignature CONTROL-->
+    </div>
+    <div class="col-lg-4 col-sm-12">
+        <!-- START ctlMouse CONTROL-->
+        <div id="ctlMouse_Container" style="width: 450px; height: 300px;" class="signContainer">
+            <canvas id="ctlMouse" width="450" height="300" class="signCanvas"></canvas>
+        </div>
+        <div id="ctlMouse_toolbar" style="width: 450px;" class="signToolbar">
+            <input type="button"  id="ctlMouse_resetbutton"value="Reset"  class="btn btn-default signReset" />
+            <div id="ctlMouse_status" class="signStatus"></div>
+        </div>
+        <input type="hidden" id="ctlMouse_data" name="ctlMouse_data" value="" />
+        <input type="hidden" id="ctlMouse_data_smooth" name="ctlMouse_data_smooth" value="" />
+        <!-- END ctlMouse CONTROL-->
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-8 col-sm-12 text-center">
+        <br />
+        <!-- call AJAX POST to save -->
+        <p><input type="submit" id="btnSave" value="Save Signatures" onclick="SaveSignatures();" class="btn btn-primary btn-lg" /></p>
+    </div>
+</div>
+
+
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        var objctlSignature, objctlMouse;
+
+        $(document).ready(
+            function () {
+
+                objctlSignature = new SuperSignature({
+                    SignObject: "ctlSignature",
+                    SignWidth: "450",
+                    SignHeight: "300",
+                    ImageScaleFactor: "1",
+                    Enabled: "true",
+                    SmoothSign: true,
+                    TransparentSign: "true",
+                    BackColor: "transparent",
+                    Visible: "true",
+                    RequiredPoints: 50,
+                    SuccessMessage: "Signature OK.",
+                    StartMessage: "Please sign.",
+                    ErrorMessage: "Please continue your signature.",
+                    BorderColor: "#DCDCDC",
+                    BorderStyle: "dashed",
+                    BorderWidth: "2px",
+                    PenColor: "#D24747",
+                    PenSize: 3,
+                    jQueryEvent: false,
+                    forceMouseEvent: true
+                });
+                objctlMouse = new SuperSignature({
+                    SignObject: "ctlMouse",
+                    SignWidth: "450",
+                    SignHeight: "300",
+                    ImageScaleFactor: "1",
+                    Enabled: "true",
+                    SmoothSign: true,
+                    TransparentSign: "false",
+                    BackColor: "#dcdcdc",
+                    Visible: "true",
+                    RequiredPoints: 50,
+                    SuccessMessage: "Signature OK.",
+                    StartMessage: "Please sign.",
+                    ErrorMessage: "Please continue your signature.",
+                    BorderColor: "#DCDCDC",
+                    BorderStyle: "dashed",
+                    BorderWidth: "2px",
+                    PenColor: "blue",
+                    PenSize: 3,
+                    jQueryEvent: false,
+                    forceMouseEvent: true
+                });
+
+                try {
+                    objctlSignature.Init();
+                    objctlMouse.Init();
+                } catch (ex) {
+                    alert(ex.description);
+                }
+
+            });
+
+        function SaveSignatures() {
+
+            var signatureCollection = [];
+
+            var btnSave = $("#btnSave");
+
+            btnSave.prop('disabled', true);
+
+            var ctlSignature = { Data: $("#ctlSignature_data").val(), Smooth: $("#ctlSignature_data_smooth").val() };
+            var objctlMouse = { Data: $("#ctlMouse_data").val(), Smooth: $("#ctlMouse_data_smooth").val() };
+
+            signatureCollection.push(ctlSignature);
+            signatureCollection.push(objctlMouse);
+
+            $.ajax({
+                url: "/Sign/Multiple/",
+                data: JSON.stringify(signatureCollection),
+                contentType: "application/json",
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (textStatus, errorThrown) {
+                    alert("Unable to save signatures");
+                }
+            });
+
+            btnSave.prop('disabled', false);
+        };
+    </script>
+
+}

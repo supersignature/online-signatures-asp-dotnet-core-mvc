@@ -1,0 +1,21 @@
+﻿
+@model SuperSignature.MVC.Core.Models.SignatureModel
+
+@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<h1 class="mt-5">@ViewBag.Title</h1>
+
+<p>
+    @Html.Partial("_SignControl", Model)
+</p>
+
+<!-- OPTIONAL DEBUG CONSOLE -->
+<p class="float-left">Debug Window</p>
+<br/>
+<p>
+    <div id="@(Model.SignObject)_Debug" style="font-family: verdana; font-size: 12px;
+           width: 200px; height: 300px; border: solid 1px black; overflow: auto; margin: 20px">
+    </div>
+</p>

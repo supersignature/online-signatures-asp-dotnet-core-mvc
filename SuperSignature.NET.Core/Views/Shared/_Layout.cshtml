@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperSignature | @ViewBag.Title</title>
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+
+    <!-- SuperSignature : Script (required) -->
+    <script language="javascript" type="text/javascript" src="/Scripts/ss.js"></script>
+    <!-- [[[ ***********  IMPORTANT: DONOT USE THIS SS.JS ON PRODUCTION;
+         USE THE ONE AVAILABLE TO DOWNLOAD FROM YOUR DASHBOARD (POST PURCHASE) ************* ]]] -->
+
+    <!-- BOOTSTRAP 4 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <a class="navbar-brand" href="https://core.supersignature.com" target="_blank">{SuperSignature .NET Core}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    &nbsp;
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/Sign/Index">Default <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Sign/Multiple">Multiple</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Sign/SignPartial">Partial View</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Responsive</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/Responsive/Index">Default</a>
+                        <a class="dropdown-item" href="/Responsive/Bootstrap">Bootstrap</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contact Form</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/Contact/Index">Validation</a>
+                        <a class="dropdown-item" href="/Contact/EditMode">Edit Mode</a>
+                        <a class="dropdown-item" href="/Contact/BootstrapModal">Modal Dialog</a>
+                    </div>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="https://www.supersignature.com">supersignature.com</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                @RenderBody()
+            </div>
+        </div>
+
+    </div>
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
